@@ -1,0 +1,360 @@
+---
+title: "Individual Student Report"
+date: "`r Sys.Date()`"
+output:
+  pagedown::html_paged:
+    self_contained: true
+    css: [score-report-style.css]
+    number_sections: false
+    fig_caption: false
+links-to-footnotes: false
+#knit: pagedown::chrome_print
+params:
+  ssid: 9878654321.0
+  year: "2018-19"
+  name: "Susan B. Anthony"
+  grade: 11
+  content: "Science"
+  birthdate: "9/1/2002"
+  bestscore: "Yes"
+  testdate: "3/13/2019"
+  teacher: "Daniel Anderson"
+  school_id: 1234
+  school_name: "Apple High School"
+  district_id: 5678
+  district_name: "Cherry SD"
+  county_id: 99
+  county_name: "Grape"
+  score: 910
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+library(ggplot2)
+```
+
+<div class = "bottom-box">
+a
+</div>
+
+<div class = "grid-container">
+
+<div class = "info-box1">
+## Dear Parents/Guardians,
+
+These results provide information about where your student is performing on grade level standards, and/or expectations, and skills. A student’s overall score and corresponding achievement levels are displayed in the line graph.
+
+Oregon teachers and administrators have worked to implement more challenging, relevant, and engaging English and math standards in every K-12 classroom. These standards identify what students should know or be able to do to graduate high school on a path ready for college and career.
+
+If you have questions about these results or how to best support your child, please contact your child’s school.
+</div>
+
+<div class = "info-box2">
+
+<div class = "grid-state-logo">
+
+<div class = "oregon-logo">
+<img src = "oregon.png" 
+     alt = "State of Oregon (geographic line art)" 
+     height = "100" />
+</div> 
+
+<div class = "ode-description">
+
+<div class = "year">
+`r params$year`
+</div>
+
+<div class = "osa">
+OREGON STATEWIDE ASSESSMENT
+</div>
+
+</div> <!-- ode-description -->
+
+</div> <!-- grid-state-logo -->
+
+<div class = "name">
+`r params$name`
+</div>
+
+<div class = "student-data nohead">
+```{r }
+stu_data <- data.frame(
+  var = c("SSID", "Grade", "Birthdate", "Best Score", "Test Date",
+          "Teacher", "School", "District", "County"),
+  id = c(rep(NA_integer_, 6), 
+         params$school_id, params$district_id, params$county_id),
+  values = with(params, 
+                c(ssid, grade, birthdate, bestscore, testdate, 
+                  teacher, school_name, district_name, county_name)
+           )
+)
+options(knitr.kable.NA = '')
+knitr::kable(stu_data)
+```
+</div>
+
+
+</div> <!-- info-box2 -->
+</div> <!-- grid-box -->
+
+<div class = "bottom-box">
+a
+</div>
+
+<div class = "score-box">
+
+<div class = "nohead">
+```{r summary-tbl}
+cuts <- data.frame(
+  content = c(rep(c("ELA", "Math"), each = 7), 
+              rep("Science", 3)),
+  grade = c(rep(c(3:8, 11), 2), c(5, 8, 11)),
+  c1      = c(192, 200, 202, 205, 208, 213, 899,
+              192, 193, 193, 204, 207, 208, 901,
+              506, 810, 901),
+  c2      = c(213, 213, 220, 220, 222, 224, 920,
+              201, 206, 206, 208, 209, 212, 907,
+              517, 820, 914),
+  c3      = c(228, 228, 232, 233, 236, 236, 927,
+              218, 219, 220, 222, 223, 226, 922,
+              530, 831, 929)
+)
+
+which_tbl <- cuts$grade == params$grade & cuts$content == params$content
+tbl <- cuts[which_tbl, ]
+cut_tbl <- data.frame(
+  grade = ifelse(
+    params$grade > 8, 
+    "High School Range", 
+    paste("Grade", params$grade)
+  ),
+  l1 = paste("Level 1<br>Less than", tbl$c1),
+  l2 = paste0("Level 2<br>", paste(tbl$c1, "-", tbl$c2 - 1)),
+  l3 = paste0("Level 3<br>", paste(tbl$c2, "-", tbl$c3 - 1)),
+  l4 = paste0("Level 4<br>", paste(tbl$c3, "or more"))
+)
+knitr::kable(
+  cut_tbl,
+  caption = "Your child's scores and achievement levels"
+)
+```
+
+```{r plot, fig.height = 1, out.width='743px', dpi = 600}
+assign_amo <- function(c1, c2, c3, score) {
+  tests <- c(
+     score < c1,
+     score >= c1 & score < c2,
+     score >= c2 & score < c3,
+     score >= c3
+  )
+  c(1, 2, 3, 4)[tests]
+}
+
+rescale01 <- function(x, rng) {
+  rng <- range(x, na.rm = TRUE)
+  (x - rng[1]) / (rng[2] - rng[1])
+}
+
+minmaxes <- data.frame(
+  grade = c(3:8, 11, 12),
+  min = c(140, 145, 145, 155, 155, 160, 850, 850),
+  max = c(245, 260, 260, 260, 260, 260, 960, 960)
+)
+
+score_min <- minmaxes[minmaxes$grade == params$grade, "min"]
+score_max <- minmaxes[minmaxes$grade == params$grade, "max"]
+
+full_scores <- data.frame(
+  score = seq(score_min, score_max),
+  amo = vapply(seq(score_min, score_max), 
+               assign_amo, 
+               c1 = tbl$c1, 
+               c2 = tbl$c2, 
+               c3 = tbl$c3, 
+               FUN.VALUE = double(1))
+)
+rescaled_within <- tapply(full_scores$score, full_scores$amo, rescale01)
+full_scores$rescaled <- unlist(rescaled_within)
+
+content <- ifelse(
+  tolower(params$content) == "ela", 
+  "English Language Arts\nOverall Score",
+  ifelse(
+    tolower(params$content) == "math",
+    "Mathematics                \nOverall Score",
+    "Science                       \nOverall Score"
+  )
+)
+
+plot_d <- data.frame(
+  content = content,
+  score = ifelse(params$score < score_min, score_min, ifelse(
+    params$score > score_max, score_max, params$score
+    )
+  )
+)
+plot_d <- merge(plot_d, full_scores, by = "score", all.x = TRUE)
+
+# add a bit of padding around the cut scores
+plot_d$rescaled <- ifelse(
+  plot_d$rescaled == 1, 0.95, ifelse(
+    plot_d$rescaled == 0, 0.05, plot_d$rescaled
+  )
+)
+
+plot_d$location <- plot_d$amo + plot_d$rescaled
+plot_d$location <- ifelse(plot_d$location >= 4.85, 4.85, plot_d$location)
+plot_d$location <- ifelse(plot_d$location <= 1.15, 1.15, plot_d$location)
+
+ggplot(plot_d, aes(x = location, y = 1)) +
+  geom_segment(
+    x = 1, 
+    xend = 5,
+    y = 1,
+    yend = 1,
+    arrow = arrow(
+      length = unit(0.3, "cm"),
+      ends = "both",
+      type = "closed"
+    ),
+  ) +
+  geom_vline(xintercept = 2:4,
+             linetype = "dashed") +
+  geom_point(
+    shape = 23, 
+    fill = "#B9CDE5", 
+    color = "#385D8A", 
+    size = 5
+  ) +
+  geom_label(
+    label = params$score,
+    y = 1.03,
+    family = "Arial"
+  ) +
+  scale_x_continuous(
+    limits = c(1, 5),
+    name = "",
+    breaks = NULL
+  ) +
+  scale_y_continuous(
+    name = plot_d$content,
+    breaks = NULL
+  ) +
+  theme(
+    axis.title.y = element_text(angle = 0, vjust = 0.5, hjust = 0, size = 10,
+                                margin = unit(c(0, -.6, 0, 0), "cm"),
+                                family = "Arial"),
+    panel.background = element_rect(fill = "#FFFFFF"),
+    plot.margin = unit(c(0, -0.6, 0, 0.1), "cm")
+  )
+
+# pad <- max(diff(c(tbl$c1, tbl$c2, tbl$c3)))
+# min <- tbl$c1 - pad
+# max <- tbl$c3 + pad
+# 
+# plot_d <- data.frame(
+#   content = content,
+#   score = ifelse(
+#     params$score < min, 
+#     min, 
+#     ifelse(
+#       params$score > max, 
+#       max, 
+#       params$score
+#     )
+#   ),
+#   se = params$se
+# )
+
+# ggplot(plot_d, aes(x = score, y = 1)) +
+#   ungeviz::stat_confidence_density(
+#     aes(moe = se),
+#     fill = "#DFEEFF",
+#     height = 0.8,
+#     confidence = 0.95
+#   ) +
+#   geom_segment(
+#     x = min, 
+#     xend = max,
+#     y = 1,
+#     yend = 1,
+#     arrow = arrow(
+#       length = unit(0.3, "cm"),
+#       ends = "both",
+#       type = "closed"
+#     ),
+#   ) +
+#   geom_vline(aes(xintercept = c1), tbl,
+#              linetype = "dashed") +
+#   geom_vline(aes(xintercept = c2), tbl,
+#            linetype = "dashed") +
+#   geom_vline(aes(xintercept = c3), tbl,
+#            linetype = "dashed") +
+#   geom_point(
+#     shape = 23, 
+#     fill = "#B9CDE5", 
+#     color = "#385D8A", 
+#     size = 5
+#   ) +
+#   scale_x_continuous(
+#     limits = range(c(tbl$c1 - pad, tbl$c3 + pad)),
+#     name = "",
+#     breaks = NULL
+#   ) +
+#   scale_y_continuous(
+#     name = plot_d$content,
+#     breaks = NULL
+#   ) +
+#   theme(
+#     axis.title.y = element_text(angle = 0, vjust = 0.5),
+#     panel.background = element_rect(fill = "#FFFFFF"),
+#     plot.margin = unit(c(0, -0.5, 0, 0.1), "cm")
+#   )
+```
+</div>
+</div>
+
+```{r }
+pld_text <- function(amo) {
+  switch(
+    amo,
+    `1` = "limited to no mastery",
+    `2` = "inconsistent or partial mastery",
+    `3` = "adept knowledge and skills",
+    `4` = "exceptional knowledge and skills"
+  )
+}
+
+amo <- assign_amo(c1 = tbl$c1, c2 = tbl$c2, c3 = tbl$c3, params$score)
+
+txt <- pld_text(amo)
+
+```
+
+<div class = "descriptive-text">
+The student demonstrates `r txt` when presented with test items linked to grade level content; i.e., content that has been reduced in depth, breadth, and complexity. Specific information regarding your student's performance in each domain of this assessment are located in the Achievement/Performance Standards section on the Statewide Alternate Assessment website: https://www.oregon.gov/ode/educator-resources/assessment/AltAssessment/. Note: Because your child participated in the Extended Assessment, these results cannot be used to compare your child's performance with that of students who are in the same enrolled grade but taking the general assessment.
+</div>
+
+```{r colorfun}
+color_tbl <- function(amo) {
+  n <- amo + 1
+  topline <- paste0(
+    ".score-box > div > table > tbody > tr > td:nth-child(", n, ") {"
+  )
+  body <- paste0(
+    "background-color: #DDFFFF;}"
+  )
+  paste0(topline, body)
+}
+```
+
+<style>
+`r color_tbl(amo)`
+</style>
+
+
+<div class = "footer">
+## About scale scores and achievement standards
+Student results are reported on scales that vary by test subject. Standards have been established with respect to these score s that identify your child’s achievement level. A description of this achievement level is provided below the score(s). For more information on scores and achievement standards, see https://www.oregon.gov/ode/educator-resources/standards/Pages/Achievement-Performance-Standards.aspx.
+</div>

@@ -1,0 +1,349 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap'); */
+
+@page {
+  @bottom-left {
+    content: element(footer);
+  }
+}
+
+.pagedjs_margin.pagedjs_margin-bottom-right.hasContent 
+  .pagedjs_margin.pagedjs_margin-bottom-center.hasContent
+  .pagedjs_margin.pagedjs_margin-bottom-left.hasContent {
+      align-items: baseline;
+}
+
+.footer {
+  position: running(footer);
+  padding-bottom: 60px;
+}
+
+
+@page{
+  size: A4 portrait;
+}
+
+.date {
+  display: none;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  font-weight: 400;
+}
+
+:root{
+  --page-width: 8.5in;
+  --pagedjs-margin-right: 0.25in;
+  --pagedjs-margin-left: 0.25in;
+  --pagedjs-margin-top: 0in;
+  --pagedjs-margin-bottom: 1.25in;
+  --root-font-size: 10pt;
+  --viewer-pages-spacing: 12px;
+  --viewer-shadow-color: #313131; /* this marks the pages */
+}
+
+/* Paged.js viewer */
+@media screen {
+  body {
+    background-color: var(--viewer-background-color);
+    margin: 0; /* for mobile */
+    width: calc(var(--pagedjs-width) + 2 * var(--viewer-pages-spacing)); /* for mobile */
+  }
+   .pagedjs_pages {
+    max-width: var(--pagedjs-width);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+  }
+   .pagedjs_page {
+    box-shadow: 0 0 calc(0.66667 * var(--viewer-pages-spacing)) var(--viewer-shadow-color);
+    margin: var(--viewer-pages-spacing) 0;
+  }
+}
+ @media screen and (min-width: 8.5in) {
+  /* not a mobile */
+  body {
+    margin: auto;
+    width: unset;
+  }
+}
+
+.blocks {
+  break-inside: avoid;
+}
+
+p, li {
+  font-size: var(--root-font-size);
+  line-height: 125%;
+}
+
+
+/* title */
+#block_container {
+    text-align:center;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+#bloc1, #bloc2 {
+    display:inline;
+}
+
+h1 {
+  font-family: 'Roboto Slab', serif;
+  text-align: center;
+  color: #5F6A6A;
+  font-size: 1.6em;
+  font-weight: normal;
+  margin-bottom: 0px;
+  /*border-bottom: 2px solid #486CAC;*/
+}
+
+/* section headers */
+h2 {
+  color: #649FD3;
+  border-bottom: 2px solid darkgray;
+  margin-top: 0.6em;
+  margin-bottom: 0.3em;
+  font-size: 1.5em;
+  font-weight: 300;
+}
+
+/* PAGE 1 */
+h2.summary,
+h2.box {
+  margin-top: -1.8em;
+  margin-bottom: 0;
+}
+
+.box {
+  visibility: hidden;
+  margin-bottom: 0;
+}
+
+.info-box thead {
+  display: none;
+}
+.info-box td:first-child{
+  width: 100%;
+  /*text-align: right; */
+}
+
+/* if you use links to footnotes*/
+.footnote-ref sup {
+  vertical-align: top;
+  margin-left: 1px;
+}
+
+a {
+  text-decoration: none;
+  color: #649FD3;
+}
+
+a:hover {
+  color: #FF95FD;
+}
+
+
+/* set the width of the first column in the tables */
+
+/* don't make page breaks inside an entry */
+tr {
+  break-inside: avoid;
+}
+
+.vertical-top td {
+  vertical-align: top;
+}
+
+.smaller-font {
+  font-size: 0.9em;
+}
+
+td {
+  vertical-align: top;
+  
+}
+
+
+/* Most of the customization */
+.title {
+  color: #FFFFFF;
+  background: #63BDA5;
+  font-size: 3.8rem;
+  font-family: 'Arial', sans-serif;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border: #948A54 1px solid;
+}
+
+.bottom-box {
+  border: #948A54 1px solid;
+  border-top: none;
+  color: #000000;
+  padding-top: 0px;
+  margin-top: -3px;
+}
+
+.bottom-box p {
+  font-size: 3px;
+  padding-left: 5px;
+  color: #FFFFFF
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  margin-bottom: -40px;
+}
+
+.grid-container h2 {
+  color:#63BDA5;
+  font-weight: 900;
+  border-bottom: none;
+  padding-bottom: 0px;
+}
+
+.info-box1 {
+  border: #948A54 1px solid;
+  border-top: none;
+  padding: 10px;
+  padding-left: 20px;
+  padding-top: 0px;
+}
+
+.info-box1 p {
+ margin-top: 0px;
+}
+
+.info-box2 {
+  border: #948A54 1px solid;
+  border-left: none;
+  background-color: #EDECE1;
+  border-top: none;
+  padding: 10px;
+}
+
+.grid-state-logo {
+  display: grid;
+  grid-template-columns: 30% 70%;
+  margin-bottom: -75px;
+}
+
+.oregon-logo {
+  margin-top: -20px;
+}
+
+.ode-description {
+  text-align: left;
+  margin-top: -10px;
+}
+.year {
+  font-weight: 900;
+  vertical-align: bottom;
+  margin: 0px;
+  padding: 0px;
+}
+
+.year > p {
+  font-size: 1.5rem;
+}
+
+.osa {
+  vertical-align: top;
+  margin-top: -20px
+}
+
+.name > p {
+  font-size: 1.4rem;
+  margin-bottom: -3px;
+}
+
+.student-data.nohead > table,
+.student-data.nohead > table > tbody > tr > td {
+  border: none;
+  text-align: left;
+}
+
+.score-box {
+  border: #948A54 1px solid;
+  border-top: none;
+  padding-bottom: 0px;
+}
+
+table {
+  width: 100%;
+}
+
+table, th, td {
+  border: #948A54 1px solid;
+  border-left: none;
+  border-collapse: collapse;
+}
+
+table > caption {
+  background: #365F91;
+  color: #FFFFFF;
+  font-size: 1.7rem;
+  font-weight: 700;
+}
+
+/* remove header in select table */
+.nohead thead{
+  display: none;
+}
+
+#tab\:summary-tbl {
+  display: none !important;
+}
+
+td {
+  background: #EEECE1;
+  text-align: center;
+  vertical-align: middle;
+}
+
+div.score-box > div > table {
+  table-layout: fixed;
+  width: 744px;
+  overflow: hidden;
+}
+
+.score-box > div > table > colgroup > col:nth-child(1) {
+  width: 168px;
+}
+.score-box > div > table > colgroup > col:nth-child(2) {
+  width: 133px;
+}
+.score-box > div > table > colgroup > col:nth-child(3) {
+  width: 145px;
+}
+.score-box > div > table > colgroup > col:nth-child(4) {
+  width: 147px;
+}
+.score-box > div > table > colgroup > col:nth-child(5) {
+  width: 151px;
+}
+
+.score-box > div > p {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.descriptive-text {
+  border: #948A54 1px solid;
+  border-top: none;
+  margin-top: -10px;
+  padding: 10px;
+}
+
+.footer > h2 {
+  font-size: 1.2rem;
+  border: none;
+  color: #000000;
+  font-weight: 700;
+  margin-bottom: -10px;
+}
+
+.footer > p {
+  font-size: 0.9rem
+}
