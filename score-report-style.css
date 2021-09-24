@@ -71,6 +71,16 @@ body {
   }
 }
 
+@media all and (max-width: 800px) {
+  div.score-box > div > table {
+    width: 745px !important;
+  }
+  .score-box > div > table > caption {
+    width: 742px !important;
+    margin-left: 1px !important;
+  }
+}
+
 .blocks {
   break-inside: avoid;
 }
@@ -271,6 +281,7 @@ td {
   border: #293241 1px solid;
   border-top: none;
   padding-bottom: 0px;
+  z-index: 2;
 }
 
 table {
@@ -283,14 +294,15 @@ table, th, td {
   border-collapse: collapse;
 }
 
-table > caption {
+.score-box > div > table > caption {
   background: #38a3a5;
   border-left: none;
   color: #FFFFFF;
   font-size: 1.7rem;
   font-weight: 700;
   width: 743px;
-  margin-left: 0px;
+  z-index: 1;
+  
 }
 
 /* remove header in select table */
@@ -312,7 +324,7 @@ td {
 }
 
 div.score-box > div > table {
-  width: 746px;
+  width: 748px;
   margin-left: 0px;
   border-left: none;
   border-right: none;
@@ -326,13 +338,13 @@ div.score-box > div > table {
   width: 168px;
 }
 .score-box > div > table > colgroup > col:nth-child(2) {
-  width: 136px;
+  width: 138px;
 }
 .score-box > div > table > colgroup > col:nth-child(3) {
-  width: 147px;
+  width: 150px;
 }
 .score-box > div > table > colgroup > col:nth-child(4) {
-  width: 147px;
+  width: 149px;
 }
 .score-box > div > table > colgroup > col:nth-child(5) {
   width: 152px;
