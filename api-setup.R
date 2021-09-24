@@ -7,7 +7,7 @@
 #* @serializer html
 #* @get /report
 
-function(ssid, year, name, grade, content, birth_date, best_score, test_date, 
+function(ssid, year, name, grade, content, birth_date, test_date, 
          teacher_name, schid, sch_name, distid, dist_name, countyid, 
          county_name, score) {
   
@@ -23,7 +23,6 @@ function(ssid, year, name, grade, content, birth_date, best_score, test_date,
       grade = grade, 
       content = content,
       birthdate = birth_date, 
-      bestscore = best_score, 
       testdate = test_date,
       teacher = teacher_name, 
       school_id = schid, 
