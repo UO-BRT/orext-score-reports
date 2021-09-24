@@ -25,7 +25,7 @@ params:
   district_name: "Cherry SD"
   county_id: 99
   county_name: "Grape"
-  score: 520.0
+  score: 80.0
 ---
 
 ```{r setup, include=FALSE}
@@ -201,8 +201,8 @@ content <- ifelse(
 
 plot_d <- data.frame(
   content = content,
-  score = ifelse(params$score < score_min, score_min, ifelse(
-    params$score > score_max, score_max, params$score
+  score = ifelse(as.numeric(params$score) < score_min, score_min, ifelse(
+    as.numeric(params$score) > score_max, score_max, params$score
     )
   )
 )
@@ -260,69 +260,6 @@ ggplot(plot_d, aes(x = location, y = 1)) +
     panel.background = element_rect(fill = "#FFFFFF"),
     plot.margin = unit(c(0, -0.6, 0, 0.1), "cm")
   )
-
-# pad <- max(diff(c(tbl$c1, tbl$c2, tbl$c3)))
-# min <- tbl$c1 - pad
-# max <- tbl$c3 + pad
-# 
-# plot_d <- data.frame(
-#   content = content,
-#   score = ifelse(
-#     params$score < min, 
-#     min, 
-#     ifelse(
-#       params$score > max, 
-#       max, 
-#       params$score
-#     )
-#   ),
-#   se = params$se
-# )
-
-# ggplot(plot_d, aes(x = score, y = 1)) +
-#   ungeviz::stat_confidence_density(
-#     aes(moe = se),
-#     fill = "#DFEEFF",
-#     height = 0.8,
-#     confidence = 0.95
-#   ) +
-#   geom_segment(
-#     x = min, 
-#     xend = max,
-#     y = 1,
-#     yend = 1,
-#     arrow = arrow(
-#       length = unit(0.3, "cm"),
-#       ends = "both",
-#       type = "closed"
-#     ),
-#   ) +
-#   geom_vline(aes(xintercept = c1), tbl,
-#              linetype = "dashed") +
-#   geom_vline(aes(xintercept = c2), tbl,
-#            linetype = "dashed") +
-#   geom_vline(aes(xintercept = c3), tbl,
-#            linetype = "dashed") +
-#   geom_point(
-#     shape = 23, 
-#     fill = "#B9CDE5", 
-#     color = "#385D8A", 
-#     size = 5
-#   ) +
-#   scale_x_continuous(
-#     limits = range(c(tbl$c1 - pad, tbl$c3 + pad)),
-#     name = "",
-#     breaks = NULL
-#   ) +
-#   scale_y_continuous(
-#     name = plot_d$content,
-#     breaks = NULL
-#   ) +
-#   theme(
-#     axis.title.y = element_text(angle = 0, vjust = 0.5),
-#     panel.background = element_rect(fill = "#FFFFFF"),
-#     plot.margin = unit(c(0, -0.5, 0, 0.1), "cm")
-#   )
 ```
 </div>
 </div>
@@ -338,7 +275,12 @@ pld_text <- function(amo) {
   )
 }
 
-amo <- assign_amo(c1 = tbl$c1, c2 = tbl$c2, c3 = tbl$c3, params$score)
+amo <- assign_amo(
+  c1 = tbl$c1, 
+  c2 = tbl$c2, 
+  c3 = tbl$c3, 
+  as.numeric(params$score)
+)
 
 txt <- pld_text(amo)
 
