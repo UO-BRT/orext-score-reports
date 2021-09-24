@@ -223,8 +223,8 @@ ggplot(plot_d, aes(x = location, y = 1)) +
              linetype = "dashed") +
   geom_point(
     shape = 23, 
-    fill = "#B9CDE5", 
-    color = "#385D8A", 
+    fill = "#57cc99", 
+    color = "#38a3a5", 
     size = 5
   ) +
   geom_label(
@@ -343,7 +343,7 @@ color_tbl <- function(amo) {
     ".score-box > div > table > tbody > tr > td:nth-child(", n, ") {"
   )
   body <- paste0(
-    "background-color: #DDFFFF;}"
+    "background-color: #57cc99; color: #FFFFFF;}"
   )
   paste0(topline, body)
 }
