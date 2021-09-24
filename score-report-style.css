@@ -71,6 +71,16 @@ body {
   }
 }
 
+@media all and (max-width: 800px) {
+  div.score-box > div > table {
+    width: 745px !important;
+  }
+  .score-box > div > table > caption {
+    width: 742px !important;
+    margin-left: 1px !important;
+  }
+}
+
 .blocks {
   break-inside: avoid;
 }
@@ -94,7 +104,7 @@ p, li {
 h1 {
   font-family: 'Roboto Slab', serif;
   text-align: center;
-  color: #5F6A6A;
+  color: #4192c8;
   font-size: 1.6em;
   font-weight: normal;
   margin-bottom: 0px;
@@ -103,7 +113,7 @@ h1 {
 
 /* section headers */
 h2 {
-  color: #649FD3;
+  color: #4192c8;
   border-bottom: 2px solid darkgray;
   margin-top: 0.6em;
   margin-bottom: 0.3em;
@@ -171,16 +181,16 @@ td {
 /* Most of the customization */
 .title {
   color: #FFFFFF;
-  background: #63BDA5;
+  background: #22577a;
   font-size: 3.8rem;
   font-family: 'Arial', sans-serif;
   padding-top: 1rem;
   padding-bottom: 1rem;
-  border: #948A54 1px solid;
+  border: #293241 1px solid;
 }
 
 .bottom-box {
-  border: #948A54 1px solid;
+  border: #293241 1px solid;
   border-top: none;
   color: #000000;
   padding-top: 0px;
@@ -200,14 +210,14 @@ td {
 }
 
 .grid-container h2 {
-  color:#63BDA5;
+  color: #22577a;
   font-weight: 900;
   border-bottom: none;
   padding-bottom: 0px;
 }
 
 .info-box1 {
-  border: #948A54 1px solid;
+  border: #293241 1px solid;
   border-top: none;
   padding: 10px;
   padding-left: 20px;
@@ -219,9 +229,9 @@ td {
 }
 
 .info-box2 {
-  border: #948A54 1px solid;
+  border: #293241 1px solid;
   border-left: none;
-  background-color: #EDECE1;
+  background-color: #f6fef7;
   border-top: none;
   padding: 10px;
 }
@@ -268,9 +278,10 @@ td {
 }
 
 .score-box {
-  border: #948A54 1px solid;
+  border: #293241 1px solid;
   border-top: none;
   padding-bottom: 0px;
+  z-index: 2;
 }
 
 table {
@@ -278,19 +289,20 @@ table {
 }
 
 table, th, td {
-  border: #948A54 1px solid;
+  border: #293241 1px solid;
   border-left: none;
   border-collapse: collapse;
 }
 
-table > caption {
-  background: #365F91;
-  border-left: #948A54 1px solid;
+.score-box > div > table > caption {
+  background: #38a3a5;
+  border-left: none;
   color: #FFFFFF;
   font-size: 1.7rem;
   font-weight: 700;
-  width: 744px;
-  margin-left: 0px;
+  width: 743px;
+  z-index: 1;
+  
 }
 
 /* remove header in select table */
@@ -303,28 +315,36 @@ table > caption {
 }
 
 td {
-  background: #EEECE1;
   text-align: center;
   vertical-align: middle;
 }
 
+.info-box2 > td {
+  background: #f6fef7;
+}
+
 div.score-box > div > table {
-  width: 744px;
+  width: 748px;
   margin-left: 0px;
-  border-left: #948A54 1px solid;
+  border-left: none;
+  border-right: none;
+}
+
+.score-box > div > table > tbody > tr > td:nth-child(5) {
+  border: none;
 }
 
 .score-box > div > table > colgroup > col:nth-child(1) {
   width: 168px;
 }
 .score-box > div > table > colgroup > col:nth-child(2) {
-  width: 133px;
+  width: 138px;
 }
 .score-box > div > table > colgroup > col:nth-child(3) {
-  width: 145px;
+  width: 150px;
 }
 .score-box > div > table > colgroup > col:nth-child(4) {
-  width: 147px;
+  width: 149px;
 }
 .score-box > div > table > colgroup > col:nth-child(5) {
   width: 152px;
@@ -336,7 +356,7 @@ div.score-box > div > table {
 }
 
 .descriptive-text {
-  border: #948A54 1px solid;
+  border: #293241 1px solid;
   border-top: none;
   margin-top: -10px;
   padding: 10px;
