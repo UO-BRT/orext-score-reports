@@ -74,7 +74,7 @@ body {
 /* For printing */
 @media all and (max-width: 800px) {
   div.score-box > div > table {
-    width: 745px !important;
+    width: 744px !important;
   }
   .score-box > div > table > caption {
     width: 742px !important;
@@ -329,7 +329,7 @@ td {
 }
 
 div.score-box > div > table {
-  width: 744px;
+  width: 743px;
   margin-left: 0px;
   border-left: none;
   border-right: none;
