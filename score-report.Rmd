@@ -13,7 +13,7 @@ params:
   ssid: 9878654321.0
   year: "2018-19"
   name: "Susan B. Anthony"
-  grade: 11
+  grade: 5
   content: "Science"
   birthdate: "9/1/2002"
   bestscore: "Yes"
@@ -25,7 +25,7 @@ params:
   district_name: "Cherry SD"
   county_id: 99
   county_name: "Grape"
-  score: 910
+  score: 520.0
 ---
 
 ```{r setup, include=FALSE}
@@ -114,7 +114,7 @@ a
 cuts <- data.frame(
   content = c(rep(c("ELA", "Math"), each = 7), 
               rep("Science", 3)),
-  grade = c(rep(c(3:8, 11), 2), c(5, 8, 11)),
+  grade   = c(rep(c(3:8, 11), 2), c(5, 8, 11)),
   c1      = c(192, 200, 202, 205, 208, 213, 899,
               192, 193, 193, 204, 207, 208, 901,
               506, 810, 901),
@@ -162,13 +162,20 @@ rescale01 <- function(x, rng) {
 }
 
 minmaxes <- data.frame(
-  grade = c(3:8, 11, 12),
-  min = c(140, 145, 145, 155, 155, 160, 850, 850),
-  max = c(245, 260, 260, 260, 260, 260, 960, 960)
+  grade = c(rep(c(3:8, 11, 12), 2), c(5, 8, 11, 12)),
+  content = rep(c("ELA", "Math", "Science"), c(8, 8, 4)),
+  min = c(
+    rep(c(140, 145, 145, 155, 155, 160, 850, 850), 2), c(450, 750, 850, 850)
+  ),
+  max = c(
+    rep(c(245, 260, 260, 260, 260, 260, 960, 960), 2), c(560, 860, 960, 960)
+  )
 )
 
-score_min <- minmaxes[minmaxes$grade == params$grade, "min"]
-score_max <- minmaxes[minmaxes$grade == params$grade, "max"]
+row_select <- minmaxes$grade == params$grade & minmaxes$content == params$content
+
+score_min <- minmaxes[row_select, "min"]
+score_max <- minmaxes[row_select, "max"]
 
 full_scores <- data.frame(
   score = seq(score_min, score_max),
