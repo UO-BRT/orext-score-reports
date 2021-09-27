@@ -287,6 +287,8 @@ txt <- pld_text(amo)
 
 <div class = "descriptive-text">
 The student demonstrates `r txt` when presented with test items linked to grade level content; i.e., content that has been reduced in depth, breadth, and complexity. Specific information regarding your student's performance in each domain of this assessment are located in the Achievement/Performance Standards section on the Statewide Alternate Assessment website: https://www.oregon.gov/ode/educator-resources/assessment/AltAssessment/. Note: Because your child participated in the Extended Assessment, these results cannot be used to compare your child's performance with that of students who are in the same enrolled grade but taking the general assessment.
+
+ODE worked with partners at the University of Oregon at Behavioral Research & Teaching, along with education and community partners, to develop parent assessment literacy training modules found at: https://www.oregon.gov/ode/educator-resources/assessment/Pages/asmtlit.aspx
 </div>
 
 ```{r colorfun}
