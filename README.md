@@ -2,7 +2,8 @@
 This repo has all the files to build the individual student score reports for the Oregon Extended Assessment. The score reports are built using R with the [pagedown](https://github.com/rstudio/pagedown) package; the plot within the score report is made with [ggplot2](https://ggplot2.tidyverse.org/). The pagedown report is parameterized, and is rendered via a [plumber](https://www.rplumber.io/) API. The whole thing is packaged into a [docker](https://www.docker.com/) container, which then is (will be) incorporated into the production code.
 
 ## Example score report
-![Screen Shot 2021-09-28 at 1 36 29 PM](https://user-images.githubusercontent.com/10944136/135161825-12a8b8ef-3b93-4a4e-b4a3-efd035a697df.png)
+![Screen Shot 2021-09-28 at 4 12 15 PM](https://user-images.githubusercontent.com/10944136/135177827-07ad6e23-84d0-453b-9cca-cf02d9db78d6.png)
+
 
 # Process for building the docker file and experimenting with the API
 If you'd like to get a full picture of how this all works, feel free to clone the repo and build the docker image locally. To do this, first make sure you have [docker installed](https://www.docker.com/get-started). Then do the following
