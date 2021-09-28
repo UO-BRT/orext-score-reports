@@ -309,7 +309,7 @@ color_tbl <- function(amo) {
 </style>
 
 
-<div class = "footer">
+<div class = "footer-text">
 ## About scale scores and achievement standards
 Student results are reported on scales that vary by test subject. Standards have been established with respect to these score s that identify your child’s achievement level. A description of this achievement level is provided below the score(s). For more information on scores and achievement standards, see https://www.oregon.gov/ode/educator-resources/standards/Pages/Achievement-Performance-Standards.aspx.
 </div>

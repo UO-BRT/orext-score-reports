@@ -1,20 +1,7 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap'); */
-
-@page {
-  @bottom-left {
-    content: element(footer);
-  }
-}
-
 .pagedjs_margin.pagedjs_margin-bottom-right.hasContent 
   .pagedjs_margin.pagedjs_margin-bottom-center.hasContent
   .pagedjs_margin.pagedjs_margin-bottom-left.hasContent {
       align-items: baseline;
-}
-
-.footer {
-  position: running(footer);
-  padding-bottom: 60px;
 }
 
 img {
@@ -39,7 +26,7 @@ body {
   --pagedjs-margin-right: 0.25in;
   --pagedjs-margin-left: 0.25in;
   --pagedjs-margin-top: 0in;
-  --pagedjs-margin-bottom: 1.25in;
+  --pagedjs-margin-bottom: 0.25in;
   --root-font-size: 10pt;
   --viewer-pages-spacing: 12px;
   --viewer-shadow-color: #313131; /* this marks the pages */
@@ -72,17 +59,17 @@ body {
 }
 
 /* For printing */
-@media all and (max-width: 800px) {
+@media print {
   div.score-box > div > table {
-    width: 744px !important;
+    width: 744px;
   }
   .score-box > div > table > caption {
-    width: 742px !important;
-    margin-left: 1px !important;
+    width: 742px;
+    margin-left: 1px;
   }
 
   #bg-text {
-    color: rgba(138, 153, 163, 0.05) !important;
+    color: rgba(138, 153, 163, 0.05);
   }
 }
 
@@ -367,7 +354,11 @@ div.score-box > div > table {
   padding: 10px;
 }
 
-.footer > h2 {
+.footer-text {
+  margin-top: 60px;
+}
+
+.footer-text > h2 {
   font-size: 1.2rem;
   border: none;
   color: #000000;
@@ -375,8 +366,8 @@ div.score-box > div > table {
   margin-bottom: -10px;
 }
 
-.footer > p {
-  font-size: 0.9rem
+.footer-text > p {
+  font-size: 0.8rem;
 }
 
 #background {
