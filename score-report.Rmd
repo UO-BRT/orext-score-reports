@@ -8,6 +8,7 @@ output:
     number_sections: false
     fig_caption: false
 links-to-footnotes: false
+fig_caption: false
 #knit: pagedown::chrome_print
 params:
   ssid: 9878654321.0
@@ -24,13 +25,15 @@ params:
   district_name: "Cherry SD"
   county_id: 99
   county_name: "Grape"
-  score: 80.0
+  score: 510.0
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 library(ggplot2)
 ```
+
+<html lang="en">
 
 <div class = "bottom-box">
 a
@@ -144,7 +147,7 @@ knitr::kable(
 )
 ```
 
-```{r plot, fig.height = 1, out.width='743px', dpi = 600}
+```{r plot, fig.height = 1, out.width='743px', dpi = 600, fig.cap="A line plot showing the student's score relative to performance levels 1-4."}
 assign_amo <- function(c1, c2, c3, score) {
   tests <- c(
      score < c1,
@@ -235,7 +238,7 @@ ggplot(plot_d, aes(x = location, y = 1)) +
   geom_point(
     shape = 23, 
     fill = "#57cc99", 
-    color = "#38a3a5", 
+    color = "#000000", 
     size = 5
   ) +
   geom_label(
@@ -298,7 +301,7 @@ color_tbl <- function(amo) {
     ".score-box > div > table > tbody > tr > td:nth-child(", n, ") {"
   )
   body <- paste0(
-    "background-color: #57cc99; color: #FFFFFF;}"
+    "background-color: #57cc99;}"
   )
   paste0(topline, body)
 }
