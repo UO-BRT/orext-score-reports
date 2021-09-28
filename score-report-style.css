@@ -59,17 +59,17 @@ body {
 }
 
 /* For printing */
-@media print {
+@media all and (max-width: 800px) {
   div.score-box > div > table {
-    width: 744px;
+    width: 744px !important;
   }
   .score-box > div > table > caption {
-    width: 742px;
-    margin-left: 1px;
+    width: 742px !important;
+    margin-left: 1px !important;
   }
 
   #bg-text {
-    color: rgba(138, 153, 163, 0.05);
+    color: rgba(138, 153, 163, 0.05) !important;
   }
 }
 
