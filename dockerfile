@@ -1,17 +1,43 @@
-FROM rocker/r-ver:4.1.1
+FROM rhub/r-minimal
 
-RUN /bin/sh -c /rocker_scripts/install_pandoc.sh # buildkit
+# install rmarkdown and ggplot2
+RUN installr -d rmarkdown 
+RUN installr -d -t gfortran ggplot2
 
-RUN apt-get update -qq && apt-get install -y \
-      libssl-dev \
-      libcurl4-gnutls-dev
+# install pagedown
+RUN apk add --no-cache --update-cache \
+      --repository http://nl.alpinelinux.org/alpine/v3.11/main \
+      autoconf=2.69-r2 \
+      automake=1.16.1-r0 && \
+      # repeat autoconf and automake (under `-t`)
+      # to (auto)remove them after installation
+      installr -d \
+      -t "openssl-dev linux-headers autoconf automake zlib-dev" \
+      -a "openssl chromium chromium-chromedriver" \
+      pagedown
 
-RUN R -e "install.packages('remotes', repos = c(CRAN = 'https://cloud.r-project.org'))"
-RUN R -e "remotes::install_version('plumber', version = '1.0.0')"
-RUN R -e "remotes::install_version('pagedown', version = '0.15')"
-RUN R -e "remotes::install_version('ggplot2', version = '3.3.5')"
+# install plumber
+RUN apk add --no-cache --update-cache \
+      --repository http://nl.alpinelinux.org/alpine/v3.11/main \
+      autoconf=2.69-r2 \
+      automake=1.16.1-r0 && \
+      # repeat autoconf and automake (under `-t`)
+      # to (auto)remove them after installation
+      installr -d \
+      -t "bash libsodium-dev curl-dev linux-headers autoconf automake" \
+      -a libsodium \
+      plumber
 
-COPY api-run.R api-setup.R oregon.png score-report-style.css score-report.Rmd /
+# install pandoc
+RUN wget https://github.com/jgm/pandoc/releases/download/2.13/pandoc-2.13-linux-amd64.tar.gz && \
+      tar xzf pandoc-2.13-linux-amd64.tar.gz && \
+      mv pandoc-2.13/bin/* /usr/local/bin/ && \
+      rm -rf pandoc-2.13*
+
+RUN installr -d -a fontconfig -t fontconfig-dev svglite
+
+COPY pagedown-convert.sh /usr/local/bin/pagedown-convert.sh
+COPY api-run.R api-setup.R oregon.png score-report-style.css score-report.Rmd / .
 
 EXPOSE 80
 

@@ -9,7 +9,6 @@ output:
     fig_caption: false
 links-to-footnotes: false
 fig_caption: false
-#knit: pagedown::chrome_print
 params:
   ssid: 9878654321.0
   year: "2018-19"
@@ -18,18 +17,17 @@ params:
   content: "Science"
   birthdate: "9/1/2002"
   testdate: "3/13/2019"
-  teacher: "Daniel Anderson"
+  assessor: "Daniel Anderson"
   school_id: 1234
   school_name: "Apple High School"
   district_id: 5678
   district_name: "Cherry SD"
-  county_id: 99
   county_name: "Grape"
   score: 510.0
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```{r dev = "svglite", setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, dev = "svglite")
 library(ggplot2)
 ```
 
@@ -83,12 +81,12 @@ OREGON STATEWIDE ASSESSMENT
 ```{r }
 stu_data <- data.frame(
   var = c("SSID", "Grade", "Birthdate", "Test Date",
-          "Teacher", "School", "District", "County"),
-  id = c(rep(NA_integer_, 5), 
-         params$school_id, params$district_id, params$county_id),
-  values = with(params, 
-                c(ssid, grade, birthdate, testdate, 
-                  teacher, school_name, district_name, county_name)
+          "Assessor", "School", "District", "County"),
+  id = c(rep(NA_integer_, 5),
+         params$school_id, params$district_id, NA_integer_),
+  values = with(params,
+                c(ssid, grade, birthdate, testdate,
+                  assessor, school_name, district_name, county_name)
            )
 )
 options(knitr.kable.NA = '')
@@ -114,7 +112,7 @@ a
 <div class = "nohead">
 ```{r summary-tbl}
 cuts <- data.frame(
-  content = c(rep(c("ELA", "Math"), each = 7), 
+  content = c(rep(c("ELA", "Math"), each = 7),
               rep("Science", 3)),
   grade   = c(rep(c(3:8, 11), 2), c(5, 8, 11)),
   c1      = c(192, 200, 202, 205, 208, 213, 899,
@@ -243,8 +241,8 @@ ggplot(plot_d, aes(x = location, y = 1)) +
   ) +
   geom_label(
     label = params$score,
-    y = 1.03,
-    family = "Arial"
+    y = 1.03#,
+    #family = "Arial"
   ) +
   scale_x_continuous(
     limits = c(1, 5),
@@ -258,7 +256,8 @@ ggplot(plot_d, aes(x = location, y = 1)) +
   theme(
     axis.title.y = element_text(angle = 0, vjust = 0.5, hjust = 0, size = 10,
                                 margin = unit(c(0, -.6, 0, 0), "cm"),
-                                family = "Arial"),
+                                #family = "Arial"
+                                ),
     panel.background = element_rect(fill = "#FFFFFF"),
     plot.margin = unit(c(0, -0.6, 0, 0.1), "cm")
   )
