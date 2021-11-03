@@ -1,0 +1,14 @@
+ssid: 9878654321.0
+year: 2018-19
+name: Susan B. Anthony
+grade: 8
+content: Science
+birthdate: 9/1/2002
+testdate: 3/13/2019
+assessor: Daniel Anderson
+school_id: 1234
+school_name: Grape High School
+district_id: 5678
+district_name: Cherry SD
+county_name: Lane
+score: 510.0
