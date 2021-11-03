@@ -209,7 +209,7 @@ content <- ifelse(
   ifelse(
     tolower(params$content) == "math",
     "Mathematics                \nOverall Score",
-    "Science                       \nOverall Score"
+    "Science                         \nOverall Score"
   )
 )
 
