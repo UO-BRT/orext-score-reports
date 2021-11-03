@@ -17,7 +17,7 @@ img {
 }
 
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: 'OpenSans', sans-serif;
   font-weight: 400;
 }
 
@@ -175,7 +175,7 @@ td {
   color: #FFFFFF;
   background: #22577a;
   font-size: 3.8rem;
-  font-family: 'Arial', sans-serif;
+  font-family: 'OpenSans', sans-serif;
   padding-top: 1rem;
   padding-bottom: 1rem;
   border: #293241 1px solid;

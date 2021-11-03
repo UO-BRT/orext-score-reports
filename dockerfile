@@ -1,8 +1,10 @@
 FROM rhub/r-minimal
+RUN apk add --no-cache --update-cache ttf-opensans
 
-# install rmarkdown and ggplot2
+# install rmarkdown ggplot2 and svglite
 RUN installr -d rmarkdown 
 RUN installr -d -t gfortran ggplot2
+RUN installr -d -a fontconfig -t fontconfig-dev svglite
 
 # install pagedown
 RUN apk add --no-cache --update-cache \
@@ -16,7 +18,7 @@ RUN apk add --no-cache --update-cache \
       -a "openssl chromium chromium-chromedriver" \
       pagedown
 
-# install plumber
+# install showtext
 RUN apk add --no-cache --update-cache \
       --repository http://nl.alpinelinux.org/alpine/v3.11/main \
       autoconf=2.69-r2 \
@@ -24,9 +26,9 @@ RUN apk add --no-cache --update-cache \
       # repeat autoconf and automake (under `-t`)
       # to (auto)remove them after installation
       installr -d \
-      -t "bash libsodium-dev curl-dev linux-headers autoconf automake" \
-      -a libsodium \
-      plumber
+      -t "zlib-dev libpng-dev freetype-dev" \
+      -a "zlib libpng freetype" \
+      showtext
 
 # install pandoc
 RUN wget https://github.com/jgm/pandoc/releases/download/2.13/pandoc-2.13-linux-amd64.tar.gz && \
@@ -34,11 +36,9 @@ RUN wget https://github.com/jgm/pandoc/releases/download/2.13/pandoc-2.13-linux-
       mv pandoc-2.13/bin/* /usr/local/bin/ && \
       rm -rf pandoc-2.13*
 
-RUN installr -d -a fontconfig -t fontconfig-dev svglite
+COPY render.sh /usr/local/bin/render.sh
+COPY convert-pdf.sh /usr/local/bin/convert-pdf.sh
+COPY oregon.png score-report-style.css score-report.Rmd / .
 
-COPY pagedown-convert.sh /usr/local/bin/pagedown-convert.sh
-COPY api-run.R api-setup.R oregon.png score-report-style.css score-report.Rmd / .
-
-EXPOSE 80
-
-ENTRYPOINT ["Rscript", "api-run.R"]
+RUN chmod +x /usr/local/bin/render.sh
+RUN chmod +x /usr/local/bin/convert-pdf.sh

@@ -27,8 +27,21 @@ params:
 ---
 
 ```{r dev = "svglite", setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, dev = "svglite")
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  dev = "svglite",
+  fig.showtext = TRUE
+)
+
 library(ggplot2)
+library(showtext)
+
+font_add(
+  "OpenSans",
+  "/usr/share/fonts/TTF/OpenSans-Regular.ttf"
+)
 ```
 
 <html lang="en">
@@ -89,7 +102,7 @@ stu_data <- data.frame(
                   assessor, school_name, district_name, county_name)
            )
 )
-options(knitr.kable.NA = '')
+options(knitr.kable.NA = "")
 knitr::kable(stu_data)
 ```
 </div>
@@ -130,8 +143,8 @@ which_tbl <- cuts$grade == params$grade & cuts$content == params$content
 tbl <- cuts[which_tbl, ]
 cut_tbl <- data.frame(
   grade = ifelse(
-    params$grade > 8, 
-    "High School Range", 
+    params$grade > 8,
+    "High School Range",
     paste("Grade", params$grade)
   ),
   l1 = paste("Level 1<br>Less than", tbl$c1),
@@ -172,25 +185,26 @@ minmaxes <- data.frame(
   )
 )
 
-row_select <- minmaxes$grade == params$grade & minmaxes$content == params$content
+row_select <- (minmaxes$grade == params$grade) &
+                (minmaxes$content == params$content)
 
 score_min <- minmaxes[row_select, "min"]
 score_max <- minmaxes[row_select, "max"]
 
 full_scores <- data.frame(
   score = seq(score_min, score_max),
-  amo = vapply(seq(score_min, score_max), 
-               assign_amo, 
-               c1 = tbl$c1, 
-               c2 = tbl$c2, 
-               c3 = tbl$c3, 
+  amo = vapply(seq(score_min, score_max),
+               assign_amo,
+               c1 = tbl$c1,
+               c2 = tbl$c2,
+               c3 = tbl$c3,
                FUN.VALUE = double(1))
 )
 rescaled_within <- tapply(full_scores$score, full_scores$amo, rescale01)
 full_scores$rescaled <- unlist(rescaled_within)
 
 content <- ifelse(
-  tolower(params$content) == "ela", 
+  tolower(params$content) == "ela",
   "English Language Arts\nOverall Score",
   ifelse(
     tolower(params$content) == "math",
@@ -221,7 +235,7 @@ plot_d$location <- ifelse(plot_d$location <= 1.15, 1.15, plot_d$location)
 
 ggplot(plot_d, aes(x = location, y = 1)) +
   geom_segment(
-    x = 1, 
+    x = 1,
     xend = 5,
     y = 1,
     yend = 1,
@@ -234,15 +248,15 @@ ggplot(plot_d, aes(x = location, y = 1)) +
   geom_vline(xintercept = 2:4,
              linetype = "dashed") +
   geom_point(
-    shape = 23, 
-    fill = "#57cc99", 
-    color = "#000000", 
+    shape = 23,
+    fill = "#57cc99",
+    color = "#000000",
     size = 5
   ) +
   geom_label(
     label = params$score,
-    y = 1.03#,
-    #family = "Arial"
+    y = 1.03,
+    family = "OpenSans"
   ) +
   scale_x_continuous(
     limits = c(1, 5),
@@ -256,7 +270,7 @@ ggplot(plot_d, aes(x = location, y = 1)) +
   theme(
     axis.title.y = element_text(angle = 0, vjust = 0.5, hjust = 0, size = 10,
                                 margin = unit(c(0, -.6, 0, 0), "cm"),
-                                #family = "Arial"
+                                family = "OpenSans"
                                 ),
     panel.background = element_rect(fill = "#FFFFFF"),
     plot.margin = unit(c(0, -0.6, 0, 0.1), "cm")
@@ -277,9 +291,9 @@ pld_text <- function(amo) {
 }
 
 amo <- assign_amo(
-  c1 = tbl$c1, 
-  c2 = tbl$c2, 
-  c3 = tbl$c3, 
+  c1 = tbl$c1,
+  c2 = tbl$c2,
+  c3 = tbl$c3,
   as.numeric(params$score)
 )
 
